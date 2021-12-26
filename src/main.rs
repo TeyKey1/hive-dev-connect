@@ -24,6 +24,14 @@ fn main() {
 
     shield.init_pins().unwrap();
 
+    for i in 1..7 {
+        let expanderx = Pca9535Immediate::new(i2c_bus.acquire_i2c(), ADDR + i);
+        let io_expanderx: IoExpander<Mutex<_>, _> = IoExpander::new(expanderx);
+
+        let mut shieldx = TargetStackShield::new(&io_expanderx);
+        shieldx.init_pins().unwrap();
+    }
+
     if shield.daughterboard_is_connected().unwrap() {
         shield
             .connect_probe_to_target(Probe::Probe0, Target::Target0)
