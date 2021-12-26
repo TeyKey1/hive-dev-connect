@@ -1,0 +1,12 @@
+[package]
+name = "hive-target-stack-shield-tester"
+version = "0.1.0"
+edition = "2018"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+ll-api = { git="https://github.com/probe-rs/hive-software.git" }
+pca9535 = { version="0.0.1", features= ["std"] }
+rppal = { version = "0.13.0", features = ["hal"] }
+shared-bus = { git = "https://github.com/TeyKey1/shared-bus.git", features = ["std"] }
