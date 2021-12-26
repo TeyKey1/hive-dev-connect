@@ -24,7 +24,7 @@ fn main() {
 
     shield.init_pins().unwrap();
 
-    for i in 1..7 {
+    for i in 1..8 {
         let expanderx = Pca9535Immediate::new(i2c_bus.acquire_i2c(), ADDR + i);
         let io_expanderx: IoExpander<Mutex<_>, _> = IoExpander::new(expanderx);
 
