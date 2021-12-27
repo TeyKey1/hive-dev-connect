@@ -20,7 +20,7 @@ fn main() {
 
     let i2c_bus: &'static _ = shared_bus::new_std!(I2c = i2c).unwrap();
 
-    let mut uart = Uart::with_path(Path::new("/dev/ttyS0"), 115200, Parity::None, 8, 1).unwrap();
+    let mut uart = Uart::with_path(Path::new("/dev/ttyAMA1"), 115200, Parity::None, 8, 1).unwrap();
     uart.set_read_mode(1, Duration::from_millis(500)).unwrap();
     uart.set_write_mode(true).unwrap();
 
