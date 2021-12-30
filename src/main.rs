@@ -120,5 +120,7 @@ fn main() {
                 channel.test_output_set_low().unwrap();
             }
         }
+    } else {
+        println!("No Daughterboard connected");
     }
 }
