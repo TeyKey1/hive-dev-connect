@@ -3,6 +3,8 @@ extern crate rppal;
 extern crate shared_bus;
 
 use std::sync::Mutex;
+use std::thread;
+use std::time::Duration;
 
 use ll_api::{RpiTestChannel, TargetStackShield, TestChannel};
 use ll_api::{Target, TestInputPin};
@@ -77,36 +79,43 @@ fn main() {
                 println!("Checking Test GPIO");
 
                 channel.test_bus_write(&[0]).unwrap();
+                thread::sleep(Duration::from_millis(50));
                 assert!(channel.test_input_is_high(TestInputPin::Pin0).unwrap());
                 assert!(!channel.test_input_is_high(TestInputPin::Pin1).unwrap());
                 assert!(!channel.test_input_is_high(TestInputPin::Pin2).unwrap());
 
                 channel.test_bus_write(&[10]).unwrap();
+                thread::sleep(Duration::from_millis(50));
                 assert!(!channel.test_input_is_high(TestInputPin::Pin0).unwrap());
                 assert!(!channel.test_input_is_high(TestInputPin::Pin1).unwrap());
                 assert!(!channel.test_input_is_high(TestInputPin::Pin2).unwrap());
 
                 channel.test_bus_write(&[1]).unwrap();
+                thread::sleep(Duration::from_millis(50));
                 assert!(!channel.test_input_is_high(TestInputPin::Pin0).unwrap());
                 assert!(channel.test_input_is_high(TestInputPin::Pin1).unwrap());
                 assert!(!channel.test_input_is_high(TestInputPin::Pin2).unwrap());
 
                 channel.test_bus_write(&[10]).unwrap();
+                thread::sleep(Duration::from_millis(50));
                 assert!(!channel.test_input_is_high(TestInputPin::Pin0).unwrap());
                 assert!(!channel.test_input_is_high(TestInputPin::Pin1).unwrap());
                 assert!(!channel.test_input_is_high(TestInputPin::Pin2).unwrap());
 
                 channel.test_bus_write(&[2]).unwrap();
+                thread::sleep(Duration::from_millis(50));
                 assert!(!channel.test_input_is_high(TestInputPin::Pin0).unwrap());
                 assert!(!channel.test_input_is_high(TestInputPin::Pin1).unwrap());
                 assert!(channel.test_input_is_high(TestInputPin::Pin2).unwrap());
 
                 channel.test_bus_write(&[10]).unwrap();
+                thread::sleep(Duration::from_millis(50));
                 assert!(!channel.test_input_is_high(TestInputPin::Pin0).unwrap());
                 assert!(!channel.test_input_is_high(TestInputPin::Pin1).unwrap());
                 assert!(!channel.test_input_is_high(TestInputPin::Pin2).unwrap());
 
                 channel.test_output_set_high().unwrap();
+                thread::sleep(Duration::from_millis(50));
                 assert_eq!(channel.test_bus_read().unwrap()[0], 4);
                 channel.test_output_set_low().unwrap();
             }
