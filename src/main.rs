@@ -62,7 +62,9 @@ fn main() {
                     )
                     .unwrap();
 
+                thread::sleep(Duration::from_millis(50));
                 let channel = test_channels[channel_n].as_mut().unwrap();
+
                 println!("Target no: {}, channel no: {}", target_n, channel_n);
                 println!("Checking gpio initialization");
 
@@ -74,7 +76,7 @@ fn main() {
 
                 channel.test_bus_write(&[5]).unwrap();
 
-                assert_eq!(channel.test_bus_read().unwrap()[0], 243);
+                assert_eq!(channel.test_bus_read().unwrap()[0], 5);
 
                 println!("Checking Test GPIO");
 
