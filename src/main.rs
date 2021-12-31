@@ -115,7 +115,6 @@ fn main() {
                 assert!(!channel.test_input_is_high(TestInputPin::Pin2).unwrap());
 
                 channel.test_output_set_high().unwrap();
-                thread::sleep(Duration::from_millis(50));
                 channel.test_bus_write(&[3]).unwrap();
                 assert_eq!(channel.test_bus_read().unwrap()[0], 4);
                 channel.test_output_set_low().unwrap();
