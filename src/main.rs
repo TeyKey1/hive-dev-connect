@@ -72,11 +72,11 @@ fn main() {
                 assert!(!channel.test_input_is_high(TestInputPin::Pin1).unwrap());
                 assert!(!channel.test_input_is_high(TestInputPin::Pin2).unwrap());
 */
-                println!("Checking UART connection");
+                /*println!("Checking UART connection");
 
                 channel.test_bus_write(&[5]).unwrap();
 
-                assert_eq!(channel.test_bus_read().unwrap()[0], 5);
+                assert_eq!(channel.test_bus_read().unwrap()[0], 5);*/
 
                 println!("Checking Test GPIO");
 
