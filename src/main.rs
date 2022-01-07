@@ -13,7 +13,7 @@ use pca9535::Pca9535Immediate;
 use rppal::gpio::Gpio;
 use rppal::i2c::I2c;
 
-const ADDR: u8 = 32;
+const ADDR: u8 = 39;
 
 fn main() {
     let i2c = I2c::new().unwrap();
