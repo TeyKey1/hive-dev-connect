@@ -48,7 +48,7 @@ fn main() {
 
         match test_channels[i] {
             Some(ref mut channel) => channel.init_pins(&mut gpio).unwrap(),
-            None => panic!("Terstchannel {} not initialized", i),
+            None => panic!("Testchannel {} not initialized", i),
         }
     }
 
@@ -80,7 +80,7 @@ fn main() {
 
                 println!("Checking Test GPIO");
 
-                channel.test_bus_write(&[0]).unwrap();
+                channel.test_bus_write(&[4]).unwrap();
                 thread::sleep(Duration::from_millis(50));
                 assert!(channel.test_input_is_high(TestInputPin::Pin0).unwrap());
                 assert!(!channel.test_input_is_high(TestInputPin::Pin1).unwrap());
