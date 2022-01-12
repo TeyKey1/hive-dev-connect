@@ -66,17 +66,17 @@ fn main() {
                 let channel = test_channels[channel_n].as_mut().unwrap();
 
                 println!("Target no: {}, channel no: {}", target_n, channel_n);
-                /*println!("Checking gpio initialization");
+                println!("Checking gpio initialization");
 
                 assert!(!channel.test_input_is_high(TestInputPin::Pin0).unwrap());
                 assert!(!channel.test_input_is_high(TestInputPin::Pin1).unwrap());
                 assert!(!channel.test_input_is_high(TestInputPin::Pin2).unwrap());
-*/
-                /*println!("Checking UART connection");
+
+                println!("Checking UART connection");
 
                 channel.test_bus_write(&[5]).unwrap();
 
-                assert_eq!(channel.test_bus_read().unwrap()[0], 5);*/
+                assert_eq!(channel.test_bus_read().unwrap()[0], 5);
 
                 println!("Checking Test GPIO");
 
@@ -86,20 +86,13 @@ fn main() {
                 assert!(!channel.test_input_is_high(TestInputPin::Pin1).unwrap());
                 assert!(!channel.test_input_is_high(TestInputPin::Pin2).unwrap());
 
-                println!("input pin0 should be high, waiting for 20s");
-                thread::sleep(Duration::from_secs(20));
-
                 channel.test_bus_write(&[10]).unwrap();
-
-                println!("input pin0 should be low, waiting for 20s");
-                thread::sleep(Duration::from_secs(20));
-
                 thread::sleep(Duration::from_millis(50));
                 assert!(!channel.test_input_is_high(TestInputPin::Pin0).unwrap());
                 assert!(!channel.test_input_is_high(TestInputPin::Pin1).unwrap());
                 assert!(!channel.test_input_is_high(TestInputPin::Pin2).unwrap());
 
-                /*channel.test_bus_write(&[1]).unwrap();
+                channel.test_bus_write(&[1]).unwrap();
                 thread::sleep(Duration::from_millis(50));
                 assert!(!channel.test_input_is_high(TestInputPin::Pin0).unwrap());
                 assert!(channel.test_input_is_high(TestInputPin::Pin1).unwrap());
@@ -121,10 +114,7 @@ fn main() {
                 thread::sleep(Duration::from_millis(50));
                 assert!(!channel.test_input_is_high(TestInputPin::Pin0).unwrap());
                 assert!(!channel.test_input_is_high(TestInputPin::Pin1).unwrap());
-                assert!(!channel.test_input_is_high(TestInputPin::Pin2).unwrap());*/
-
-                println!("waiting 5s until I write 3 on UART Bus");
-                thread::sleep(Duration::from_secs(5));
+                assert!(!channel.test_input_is_high(TestInputPin::Pin2).unwrap());
 
                 channel.test_output_set_high().unwrap();
                 channel.test_bus_write(&[3]).unwrap();
