@@ -23,11 +23,12 @@ struct Args {
     test_ch: u8,
     #[clap(default_value_t = 0)]
     target_ch: u8,
+    #[clap(short, long)]
+    disconnect: bool,
 }
 
 fn main() {
     let args = Args::parse();
-    println!("args: {:?}", args);
 
     let i2c = I2c::new().unwrap();
 
@@ -43,6 +44,10 @@ fn main() {
     }
 
     shield.disconnect_all().unwrap();
+
+    if args.disconnect {
+        return ()
+    }
 
     shield.connect_test_channel_to_target(TestChannel::try_from(args.test_ch).unwrap(), Target::try_from(args.target_ch).unwrap()).unwrap();
 }
