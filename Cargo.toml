@@ -2,8 +2,8 @@
 name = "hive_dev_connect"
 version = "0.1.0"
 edition = "2018"
-author = ["TeyKey1 <thierry.kuehni@hotmail.com>"] 
-about = "Utility to connect provided probe to provided target on the Hive testrack"
+authors = ["TeyKey1 <thierry.kuehni@hotmail.com>"] 
+description = "Utility to connect provided probe to provided target on the Hive testrack"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
