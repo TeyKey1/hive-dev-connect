@@ -39,14 +39,14 @@ fn main() {
 
     shield.init_pins().unwrap();
 
-    if !shield.daughterboard_is_connected().unwrap() {
-        panic!("No daughterboard connected to specified TSS");
-    }
-
     shield.disconnect_all().unwrap();
 
     if args.disconnect {
         return ()
+    }
+
+    if !shield.daughterboard_is_connected().unwrap() {
+        panic!("No daughterboard connected to specified TSS");
     }
 
     shield.connect_test_channel_to_target(TestChannel::try_from(args.test_ch).unwrap(), Target::try_from(args.target_ch).unwrap()).unwrap();
