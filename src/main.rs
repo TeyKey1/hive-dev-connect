@@ -1,12 +1,13 @@
 extern crate clap;
 extern crate ll_api;
 extern crate rppal;
+extern crate anyhow;
 
-use core::panic;
 use std::convert::TryFrom;
 use std::sync::Mutex;
 
 use clap::Parser;
+use anyhow::{Result, anyhow};
 use ll_api::{TargetStackShield, TestChannel, Target};
 use pca9535::IoExpander;
 use pca9535::Pca9535Immediate;
@@ -27,27 +28,29 @@ struct Args {
     disconnect: bool,
 }
 
-fn main() {
+fn main() -> Result<()> {
     let args = Args::parse();
 
-    let i2c = I2c::new().unwrap();
+    let i2c = I2c::new()?;
 
     let expander = Pca9535Immediate::new(i2c, TSS_BASE_ADDR + args.tss);
     let io_expander: IoExpander<Mutex<_>, _> = IoExpander::new(expander);
 
     let mut shield = TargetStackShield::new(&io_expander);
 
-    shield.init_pins().unwrap();
+    shield.init_pins()?;
 
-    shield.disconnect_all().unwrap();
+    shield.disconnect_all()?;
 
     if args.disconnect {
-        return ()
+        return Ok(());
     }
 
-    if !shield.daughterboard_is_connected().unwrap() {
-        panic!("No daughterboard connected to specified TSS");
+    if !shield.daughterboard_is_connected()? {
+        return Err(anyhow!("No daughterbuard detected on selected TSS"));
     }
 
-    shield.connect_test_channel_to_target(TestChannel::try_from(args.test_ch).unwrap(), Target::try_from(args.target_ch).unwrap()).unwrap();
+    shield.connect_test_channel_to_target(TestChannel::try_from(args.test_ch)?, Target::try_from(args.target_ch)?)?;
+
+    Ok(())
 }
