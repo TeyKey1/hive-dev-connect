@@ -18,12 +18,16 @@ const TSS_BASE_ADDR: u8= 32;
 #[derive(Parser, Debug)]
 #[clap(author, version, about, long_about = None)]
 struct Args {
+    /// Position of the TSS
     #[clap(default_value_t = 0)]
     tss: u8,
+    /// Test channel number
     #[clap(default_value_t = 0)]
     test_ch: u8,
     #[clap(default_value_t = 0)]
+    /// Target number
     target_ch: u8,
+    /// Disconnects all connections on TSS
     #[clap(short, long)]
     disconnect: bool,
 }
@@ -51,6 +55,6 @@ fn main() -> Result<()> {
     }
 
     shield.connect_test_channel_to_target(TestChannel::try_from(args.test_ch)?, Target::try_from(args.target_ch)?)?;
-
+    
     Ok(())
 }
