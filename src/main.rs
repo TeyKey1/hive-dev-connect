@@ -16,7 +16,7 @@ use clap::Parser;
 use colored::Colorize;
 use ll_api::{Target, TargetStackShield, TestChannel};
 use log::LevelFilter;
-use log::{debug, info, trace, warn, error};
+use log::{debug, error, info, trace, warn};
 use pca9535::IoExpander;
 use pca9535::Pca9535Immediate;
 use rppal::i2c::I2c;
@@ -42,11 +42,9 @@ struct Args {
     verbose: clap_verbosity_flag::Verbosity,
 }
 
-fn main() -> Result<()> {
+fn main() {
     let args = Args::parse();
-
     pretty_env_logger::formatted_builder()
-        .format_target(false)
         .filter_level(set_log_level(&args.verbose.log_level()))
         .init();
 
@@ -56,6 +54,15 @@ fn main() -> Result<()> {
     debug!("debugging...");
     error!("error");
 
+    let res = app(args);
+
+    if let Err(err) = res {
+        print!("{} {}", "error:".red().bold(), err);
+        exit(1);
+    }
+}
+
+fn app(args: Args) -> Result<()> {
     let i2c = I2c::new()?;
 
     let expander = Pca9535Immediate::new(i2c, TSS_BASE_ADDR + args.tss);
