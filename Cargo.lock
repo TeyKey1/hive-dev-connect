@@ -279,7 +279,7 @@ checksum = "ed0cfbc8191465bed66e1718596ee0b0b35d5ee1f41c5df2189d0fe8bde535ba"
 [[package]]
 name = "pretty_env_logger"
 version = "0.4.0"
-source = "git+https://github.com/TeyKey1/pretty-env-logger.git#d88d6f4680b1612675b159a91c98f0f3892db14e"
+source = "git+https://github.com/TeyKey1/pretty-env-logger.git#9d092669850a369930a702ddb1405773c426c28e"
 dependencies = [
  "env_logger",
  "log",
