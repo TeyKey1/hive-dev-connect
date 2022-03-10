@@ -46,6 +46,7 @@ fn main() -> Result<()> {
     let args = Args::parse();
 
     pretty_env_logger::formatted_builder()
+        .format_target(false)
         .filter_level(set_log_level(&args.verbose.log_level()))
         .init();
 
