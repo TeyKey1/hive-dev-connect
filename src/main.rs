@@ -41,10 +41,11 @@ struct Args {
 }
 
 fn main() -> Result<()> {
-    pretty_env_logger::init();
-
     let args = Args::parse();
     set_log_level(&args.verbose.log_level());
+
+    pretty_env_logger::init();
+    pretty_env_logger::formatted_builder().default_format_module_path(false);
 
     info!("starting to process your command :)");
     trace!("tracing..");
