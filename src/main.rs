@@ -8,14 +8,14 @@ extern crate pretty_env_logger;
 extern crate rppal;
 
 use std::convert::TryFrom;
-use std::env::set_var;
 use std::sync::Mutex;
 
 use anyhow::{anyhow, Result};
 use clap::Parser;
 use colored::Colorize;
 use ll_api::{Target, TargetStackShield, TestChannel};
-use log::{info, trace, warn, debug};
+use log::LevelFilter;
+use log::{debug, info, trace, warn, error};
 use pca9535::IoExpander;
 use pca9535::Pca9535Immediate;
 use rppal::i2c::I2c;
@@ -42,14 +42,17 @@ struct Args {
 
 fn main() -> Result<()> {
     let args = Args::parse();
-    set_log_level(&args.verbose.log_level());
 
-    pretty_env_logger::formatted_builder().default_format_module_path(false).filter_level(log::LevelFilter::Debug).init();
+    pretty_env_logger::formatted_builder()
+        .default_format_module_path(false)
+        .filter_level(set_log_level(&args.verbose.log_level()))
+        .init();
 
     info!("starting to process your command :)");
     trace!("tracing..");
     warn!("warning");
     debug!("debugging...");
+    error!("error");
 
     let i2c = I2c::new()?;
 
@@ -91,9 +94,9 @@ fn main() -> Result<()> {
 }
 
 /// set the log level of the cli
-fn set_log_level(verbosity: &Option<log::Level>) {
+fn set_log_level(verbosity: &Option<log::Level>) -> LevelFilter {
     match verbosity {
-        Some(level) => set_var("RUST_LOG", level.as_str()),
-        None => set_var("RUST_LOG", "off"),
+        Some(level) => level.to_level_filter(),
+        None => LevelFilter::Off,
     }
 }
