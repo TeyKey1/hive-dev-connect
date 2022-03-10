@@ -8,6 +8,7 @@ extern crate pretty_env_logger;
 extern crate rppal;
 
 use std::convert::TryFrom;
+use std::env::set_var;
 use std::sync::Mutex;
 
 use anyhow::{anyhow, Result};
@@ -44,6 +45,7 @@ fn main() -> Result<()> {
     info!("starting to process your command :)");
 
     let args = Args::parse();
+    set_log_level(&args.verbose.log_level());
 
     let i2c = I2c::new()?;
 
@@ -82,4 +84,12 @@ fn main() -> Result<()> {
         args.target_ch.to_string().magenta()
     );
     Ok(())
+}
+
+/// set the log level of the cli
+fn set_log_level(verbosity: &Option<log::Level>) {
+    match verbosity {
+        Some(level) => set_var("RUST_LOG", level.as_str()),
+        None => set_var("RUST_LOG", "off"),
+    }
 }
