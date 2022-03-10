@@ -9,6 +9,7 @@ extern crate rppal;
 
 use std::convert::TryFrom;
 use std::sync::Mutex;
+use std::io::Write;
 
 use anyhow::{anyhow, Result};
 use clap::Parser;
@@ -44,7 +45,7 @@ fn main() -> Result<()> {
     let args = Args::parse();
 
     pretty_env_logger::formatted_builder()
-        .default_format_module_path(false)
+        .format(|buf, record| writeln!(buf, "{} - {}", record.level(), record.args()))
         .filter_level(set_log_level(&args.verbose.log_level()))
         .init();
 
