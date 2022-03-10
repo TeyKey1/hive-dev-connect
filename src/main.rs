@@ -4,7 +4,7 @@ extern crate clap_verbosity_flag;
 extern crate colored;
 extern crate ll_api;
 extern crate log;
-extern crate pretty_env_logger;
+extern crate simple_clap_logger;
 extern crate rppal;
 
 use std::convert::TryFrom;
@@ -15,11 +15,12 @@ use anyhow::Result;
 use clap::Parser;
 use colored::Colorize;
 use ll_api::{Target, TargetStackShield, TestChannel};
-use log::LevelFilter;
+use log::Level;
 use log::{debug, error, info, trace, warn};
 use pca9535::IoExpander;
 use pca9535::Pca9535Immediate;
 use rppal::i2c::I2c;
+use simple_clap_logger::Logger;
 
 const TSS_BASE_ADDR: u8 = 32;
 
@@ -44,9 +45,7 @@ struct Args {
 
 fn main() {
     let args = Args::parse();
-    pretty_env_logger::formatted_builder()
-        .filter_level(set_log_level(&args.verbose.log_level()))
-        .init();
+    Logger::init_with_level(set_log_level(&args.verbose.log_level()));
 
     info!("starting to process your command :)");
     trace!("tracing..");
@@ -57,7 +56,7 @@ fn main() {
     let res = app(args);
 
     if let Err(err) = res {
-        print!("{} {}", "error:".red().bold(), err);
+        println!("{} {}", "error:".red().bold(), err);
         exit(1);
     }
 }
@@ -104,9 +103,9 @@ fn app(args: Args) -> Result<()> {
 }
 
 /// set the log level of the cli
-fn set_log_level(verbosity: &Option<log::Level>) -> LevelFilter {
+fn set_log_level(verbosity: &Option<log::Level>) -> Level {
     match verbosity {
-        Some(level) => level.to_level_filter(),
-        None => LevelFilter::Off,
+        Some(level) => *level,
+        None => Level::Error,
     }
 }
