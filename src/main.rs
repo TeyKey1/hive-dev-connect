@@ -15,7 +15,7 @@ use anyhow::{anyhow, Result};
 use clap::Parser;
 use colored::Colorize;
 use ll_api::{Target, TargetStackShield, TestChannel};
-use log::info;
+use log::{info, trace, warn, debug};
 use pca9535::IoExpander;
 use pca9535::Pca9535Immediate;
 use rppal::i2c::I2c;
@@ -42,10 +42,14 @@ struct Args {
 
 fn main() -> Result<()> {
     pretty_env_logger::init();
-    info!("starting to process your command :)");
 
     let args = Args::parse();
     set_log_level(&args.verbose.log_level());
+
+    info!("starting to process your command :)");
+    trace!("tracing..");
+    warn!("warning");
+    debug!("debugging...");
 
     let i2c = I2c::new()?;
 
