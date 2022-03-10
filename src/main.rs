@@ -8,9 +8,10 @@ extern crate pretty_env_logger;
 extern crate rppal;
 
 use std::convert::TryFrom;
+use std::process::exit;
 use std::sync::Mutex;
 
-use anyhow::{anyhow, Result};
+use anyhow::Result;
 use clap::Parser;
 use colored::Colorize;
 use ll_api::{Target, TargetStackShield, TestChannel};
@@ -75,7 +76,8 @@ fn main() -> Result<()> {
     }
 
     if !shield.daughterboard_is_connected()? {
-        return Err(anyhow!("No daughterboard detected on selected TSS"));
+        error!("No daughterboard detected on selected TSS");
+        exit(1);
     }
 
     shield.connect_test_channel_to_target(
