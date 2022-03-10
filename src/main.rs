@@ -9,7 +9,6 @@ extern crate rppal;
 
 use std::convert::TryFrom;
 use std::sync::Mutex;
-use std::io::Write;
 
 use anyhow::{anyhow, Result};
 use clap::Parser;
@@ -20,6 +19,7 @@ use log::{debug, info, trace, warn, error};
 use pca9535::IoExpander;
 use pca9535::Pca9535Immediate;
 use rppal::i2c::I2c;
+
 const TSS_BASE_ADDR: u8 = 32;
 
 #[derive(Parser, Debug)]
@@ -45,7 +45,6 @@ fn main() -> Result<()> {
     let args = Args::parse();
 
     pretty_env_logger::formatted_builder()
-        .format(|buf, record| writeln!(buf, "{} - {}", record.level(), record.args()))
         .filter_level(set_log_level(&args.verbose.log_level()))
         .init();
 
