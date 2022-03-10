@@ -46,7 +46,6 @@ struct Args {
 fn main() {
     let args = Args::parse();
     Logger::init_with_level(set_log_level(&args.verbose.log_level()));
-    Logger::init_with_level(set_log_level(&args.verbose.log_level()));
 
     info!("starting to process your command :)");
     trace!("tracing..");

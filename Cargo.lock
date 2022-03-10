@@ -358,7 +358,7 @@ dependencies = [
 [[package]]
 name = "simple-clap-logger"
 version = "0.1.0"
-source = "git+https://github.com/TeyKey1/simple-clap-logger.git#28794f5cb8c58301aa3329e3585512c7d8a6bda9"
+source = "git+https://github.com/TeyKey1/simple-clap-logger.git#0b30266c38574199a01aea21050e9ef57eb781be"
 dependencies = [
  "colored",
  "log",
