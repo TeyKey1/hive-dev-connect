@@ -15,8 +15,8 @@ use anyhow::Result;
 use clap::Parser;
 use colored::Colorize;
 use ll_api::{Target, TargetStackShield, TestChannel};
+use log::error;
 use log::Level;
-use log::{debug, error, info, trace, warn};
 use pca9535::IoExpander;
 use pca9535::Pca9535Immediate;
 use rppal::i2c::I2c;
@@ -46,12 +46,6 @@ struct Args {
 fn main() {
     let args = Args::parse();
     Logger::init_with_level(set_log_level(&args.verbose.log_level()));
-
-    info!("starting to process your command :)");
-    trace!("tracing..");
-    warn!("warning");
-    debug!("debugging...");
-    error!("error");
 
     let res = app(args);
 
