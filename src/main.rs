@@ -4,8 +4,8 @@ extern crate clap_verbosity_flag;
 extern crate colored;
 extern crate ll_api;
 extern crate log;
-extern crate simple_clap_logger;
 extern crate rppal;
+extern crate simple_clap_logger;
 
 use std::convert::TryFrom;
 use std::process::exit;
@@ -56,7 +56,7 @@ fn main() {
     let res = app(args);
 
     if let Err(err) = res {
-        println!("{} {}", "error:".red().bold(), err);
+        error!("{}", err);
         exit(1);
     }
 }
