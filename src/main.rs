@@ -55,7 +55,7 @@ fn main() {
 
     if let Err(err) = res {
         if err.source().is_some() {
-            error!("{}\n\nCaused by: {}", err, err.source().unwrap());
+            error!("{}\n\nCaused by:\n{}", err, err.source().unwrap());
         } else {
             error!("{}", err);
         }
