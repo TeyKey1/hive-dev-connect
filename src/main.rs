@@ -54,7 +54,12 @@ fn main() {
     let res = app(args);
 
     if let Err(err) = res {
-        error!("{}", err);
+        if err.source().is_some() {
+            error!("{}\n\nCaused by: {}", err, err.source().unwrap());
+        } else {
+            error!("{}", err);
+        }
+
         exit(1);
     }
 }
@@ -63,7 +68,7 @@ fn app(args: Args) -> Result<()> {
     let i2c = I2c::new()?;
 
     let expander = Pca9535Immediate::new(i2c, TSS_BASE_ADDR + args.tss);
-    let io_expander: IoExpander<Mutex<_>, _> = IoExpander::new(expander);
+    let io_expander: IoExpander<_, _, Mutex<_>> = IoExpander::new(expander);
 
     let mut shield = TargetStackShield::new(&io_expander);
 
@@ -74,7 +79,7 @@ fn app(args: Args) -> Result<()> {
     if args.disconnect {
         println!(
             "{} {}",
-            "Sucessfully disconnected all connections on TSS".green(),
+            "Sucessfully disconnected all connections on TSS",
             args.tss.to_string().magenta()
         );
         return Ok(());
@@ -92,9 +97,9 @@ fn app(args: Args) -> Result<()> {
 
     println!(
         "{} {} {} {}",
-        "Successfully connected test channel".green(),
+        "Successfully connected test channel",
         args.test_ch.to_string().magenta(),
-        "to target".green(),
+        "to target",
         args.target_ch.to_string().magenta()
     );
     Ok(())
