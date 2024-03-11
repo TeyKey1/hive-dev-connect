@@ -13,6 +13,7 @@ use std::process::exit;
 use std::str::FromStr;
 use std::sync::Mutex;
 
+use anyhow::bail;
 use anyhow::Result;
 use clap::Parser;
 use colored::Colorize;
@@ -86,8 +87,7 @@ fn app(args: Args) -> Result<()> {
     }
 
     if !shield.daughterboard_is_connected()? {
-        error!("No daughterboard detected on selected TSS");
-        exit(1);
+        bail!("No daughterboard detected on selected TSS");
     }
 
     shield.connect_test_channel_to_target(
@@ -96,11 +96,10 @@ fn app(args: Args) -> Result<()> {
     )?;
 
     println!(
-        "{} {} {} {}",
-        "Successfully connected test channel",
+        "Successfully connected test channel {} to target {} on TSS {}",
         args.test_ch.to_string().magenta(),
-        "to target",
-        args.target_ch.to_string().magenta()
+        args.target_ch.to_string().magenta(),
+        args.tss.to_string().magenta(),
     );
     Ok(())
 }
